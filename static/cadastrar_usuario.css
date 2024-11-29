@@ -1,0 +1,244 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+/*area de testes*/
+.icon-container {
+    position: absolute;
+    top: 79.2%;
+    right: 43%;
+}
+
+.icon-container_dois {
+    position: absolute;
+    top: 80%;
+    right: 49%;
+}
+
+.icon-container_tres {
+    position: absolute;
+    top: 80%;
+    right: 46%;
+}
+
+.icon-container_quatro {
+    position: absolute;
+    top: 80%;
+    right: 40%;
+}
+
+.tooltip {
+    position: absolute;
+    bottom: 110%; /* Posiciona o texto acima do ícone */
+    transform: translateX(-50%) translateY(10px); /* Ajusta centralização e início fora de vista */
+    background-color: #333;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    white-space: nowrap;
+    opacity: 0; /* Esconde o texto inicialmente */
+    visibility: hidden; /* Esconde visualmente */
+    transition: all 0.3s ease; /* Animação suave */
+}
+
+.icon-container:hover .tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0); /* Traz o texto de dentro para fora */
+}
+
+.icon-container_dois:hover .tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0); /* Traz o texto de dentro para fora */
+}
+
+.icon-container_tres:hover .tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0); /* Traz o texto de dentro para fora */
+}
+
+.icon-container_quatro:hover .tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0); /* Traz o texto de dentro para fora */
+}
+
+/*------------------------------------------------*/
+body {
+    background-color: #ffffff;
+
+    .ir_login {
+        top: 18vh;
+        left: 7.5vw;
+        position: absolute;
+        background-color: white;
+        width: 20vw;
+        height: 6vh;
+        border-radius: 10px;
+        border: 3px solid black;
+        color: #224049;
+        transition: all .5s;
+
+    }
+
+    .ir_login:hover {
+        background-color: rgba(0, 0, 0, 0.25);
+        border: 3px solid rgb(0, 0, 0);
+        transform-origin: center;
+        transform: scale(1.2);
+        transition: transform 2s unset;
+        text-shadow: 5px 5px 10px black;
+    }
+
+    button a {
+        color: black;
+        font-size: 22px;
+        text-decoration: none;
+        text-shadow: 1px 1px 10px black;
+        font-weight: bold;
+    }
+
+    main {
+        .grafico {
+            position: absolute;
+            top: 40vh;
+        }
+
+        .redes_sociais {
+            position: absolute;
+            left: 11.5%;
+            top: 58%;
+
+        }
+
+        .fa-brands {
+            margin-left: 1vw;
+            color: #224049;
+            transition: all .5s;
+
+        }
+
+        .fa-brands:hover {
+
+            transform-origin: center;
+            transform: scale(1.2);
+            transition: transform 2s unset;
+
+        }
+
+        .texto_motivador {
+            position: absolute;
+            left: 8%;
+            top: 10%;
+        }
+
+
+        .titulo {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 42px;
+            top: 2vh;
+            text-shadow: 1px 5px 10px black;
+        }
+
+        .flash-message {
+            right: 10vw;
+            display: inline-block;
+            position: absolute;
+            padding: 15px;
+            background-color: #000000;
+            color: #fff;
+            border-radius: 5px;
+            margin: 10px 0;
+            text-shadow: 1px 1px 10px white;
+        }
+
+        .flash-message .close-btn {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            background: none;
+            border: none;
+            font-size: 16px;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .container_formulario {
+            background-color: white;
+            display: inline-block;
+
+            border-radius: 10px;
+            margin-top: 20vh;
+            margin-left: 48vw;
+            width: 45%;
+            padding: 10px 10px 20px;
+
+            .formulario {
+                display: block;
+
+                input[type="number"]::-webkit-inner-spin-button,
+                input[type="number"]::-webkit-outer-spin-button {
+                    -webkit-appearance: none;
+                    margin: 0;
+                }
+
+
+                .descricao {
+                    font-family: -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, helvetica, Cantarell, Ubuntu, roboto, noto, arial, sans-serif;
+                    font-size: 22px;
+                    display: inline-block;
+                    width: 100%;
+                    text-shadow: 5px 3px 10px #000000;
+                    color: #030131;
+                }
+
+                .input {
+                    color: #ffffff;
+                    font-size: 22px;
+                    border: none;
+                    border-radius: 10px;
+                    background-color: rgba(0, 0, 0, 0.89);
+                    height: 5vh;
+                    width: 100%;
+                    display: block;
+                }
+
+
+            }
+
+            #enviar {
+                margin-bottom: 1vh;
+
+                background-color: white;
+                width: 5vw;
+                height: 4vh;
+                margin-top: 2vh;
+                margin-left: 44%;
+                border-radius: 10px;
+                border: 3px solid black;
+                color: #224049;
+                transition: all .5s;
+
+            }
+
+            #enviar:active {
+                background-color: #000000;
+                color: white;
+            }
+
+            #enviar:hover {
+                transform-origin: center;
+                transform: scale(1.2);
+                transition: transform 2s unset;
+                text-shadow: 5px 5px 10px black;
+            }
+        }
+
+
+    }
+}

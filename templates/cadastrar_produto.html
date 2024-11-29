@@ -1,0 +1,38 @@
+{% extends 'home.html' %}
+
+
+{% block conteudo %}
+
+<form method="POST" action="{{ url_for('cadastrar_produto') }}">
+
+    {%- for mensagem in get_flashed_messages()%}
+        {{mensagem}}
+    {%- endfor %}
+
+
+    <div class="descricao_produto6">
+        <div>
+            <label class="descricao" for="nome_produto">nome do produto:</label>
+            <input type="text" id="nome_produto" name="descricao">
+        </div>
+        <div>
+            <label class="descricao" for="valor">valor do produto:</label>
+            <input type="number" id="valor" step="0.01" name="valor_produto">
+        </div>
+        <div class="formulario">
+            <label class="descricao" for="categoria">categoria:</label>
+            <select id="categoria" name="id_categoria">
+                <option value="" selected>Escolha uma categoria</option>
+                {% for categoria in atributos %}
+                <option value="{{categoria.id_categoria}}">{{ categoria.nome }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+
+        <button id="enviar" type="submit" value="Registrar">registrar </button>
+    </div>
+</form>
+
+
+{% endblock %}

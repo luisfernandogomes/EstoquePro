@@ -1,0 +1,53 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box; /* Add this to ensure consistent sizing */
+
+}
+
+header {
+    background-color: #030131; /* Light gray background */
+    display: inline-block;
+    width: 100vw;
+    height: 15vh; /* Increased height */
+
+
+}
+
+h1 {
+    display: inline-block;
+    color: #ffdc00;
+    margin-top: 2vh;
+    font-size: 55px; /* Increased font size */
+    text-shadow: 1px 1px 8px #000000;
+}
+
+nav {
+    display: inline-block;
+    width: 11vw;
+    height: 85vh;
+    background-color: #030131;
+    float: left;
+
+    a {
+        text-decoration: none;
+        color: gold;
+        display: block;
+        margin-left: 10px;
+        margin-top: 5px;
+        text-shadow: 0.1px 1px 4px gold;
+    }
+
+    .texto_links:hover {
+        text-shadow: 1px 1px 10px gold;
+    }
+}
+
+main {
+    display: block;
+    width: 100%;
+    height: 85vh;
+    background-color: #60bbf3;
+    color: #000000;
+}
+

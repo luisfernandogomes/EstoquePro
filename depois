@@ -1,0 +1,502 @@
+
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+
+
+
+
+        <!--            <div class="nav_links">-->
+        <!--                <a href="{{ url_for('cadastro') }}"><p class="texto_links">cadastro</p></a>-->
+        <!--            </div>-->
+
+        <!--            <div class="nav_links">-->
+        <!--                <a href="{{ url_for('cadastrar_categoria') }}"><p class="texto_links">cadastrar categoria</p></a>-->
+        <!--            </div>-->
+
+
+        <!--            <div class="nav_links">-->
+        <!--                <a href="{{ url_for('cadastrar_transportadora') }}"><p class="texto_links">cadastrar transportadora</p></a>-->
+        <!--            </div>-->
+
+
+        <!--            <div class="nav_links">-->
+        <!--                <a href="{{ url_for('cadastro_loguin') }}"><p class="texto_links">cadastro/loguin</p></a>-->
+        <!--            </div>-->
+
+        <!--            <div class="nav_links">-->
+        <!--                <a href="{{ url_for('cadastrar_movimentacao_entrada') }}"><p class="texto_links">cadastrar movimentacao de-->
+        <!--                    entrada</p></a>-->
+        <!--            </div>-->
+
+
+        <!--            <div class="nav_links">-->
+        <!--                <a href="{{ url_for('cadastrar_funcionario') }}"><p class="texto_links">cadastrar funcionario</p></a>-->
+        <!--            </div>-->
+
+        <!--            <div class="nav_links">-->
+        <!--                <a href="{{ url_for('cadastrar_movimentacao_saida') }}"><p class="texto_links">cadastrar movimentacao de-->
+        <!--                    saida</p></a>-->
+        <!--            </div>-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+body {
+    background-color: #b7d5e7;
+}
+
+/*pagina de header*/
+header {
+    display: block;
+    background-color: #030131;
+    height: 10vh;
+    line-height: 9vh;
+    text-align: center;
+    border-bottom: 5px solid black;
+
+    h1 {
+        color: #9ad4e0;
+    }
+}
+
+.img_home {
+    margin-left: 1vw;
+    float: left;
+    display: inline-block;
+    padding-top: 1vh;
+}
+
+
+/*main, conteudo principal*/
+main {
+    background-color: #b7d5e7;
+    display: inline-block;
+    width: 91.0091526%;
+
+
+}
+
+/*menu de navegação*/
+
+.container-with-nav {
+    float: left;
+}
+nav {
+    background-color: rgba(255, 255, 255, 0.02);
+    display: inline-block;
+    width: 8.5vw;
+    height: 89.74vh;
+    border-right: 5px solid black;
+    float: left;
+
+}
+
+.container-no-nav {
+    .container_formulario {
+        margin-left: 36%;
+    }
+}
+
+.nav_links {
+    margin-left: 0.5vw;
+    margin-top: 2vh;
+
+}
+
+.texto_links {
+    padding-left: 5px;
+}
+
+.nav_links:hover {
+    border-bottom: 2px solid #000000;
+    background-color: #9ad4e0;
+    border-radius: 10px;
+}
+
+a {
+    text-decoration: none;
+    color: #000000;
+}
+
+
+/*usario*/
+#nome, #email, #senha, #senha_confirmada, #telefone, #CNPJ {
+    width: 30vw;
+    background-color: #030131;
+    border-radius: 5px;
+    color: #ffffff;
+
+}
+
+
+.container_formulario {
+    display: inline-block;
+    border: 5px solid #d9d9d9;
+    padding: 30px;
+    margin-left: 26vw;
+    border-radius: 5px;
+
+}
+
+
+/*pagina de cadastro de produto*/
+
+.titulo_principal {
+    margin-left: 5vw;
+    margin-top: 5vh;
+}
+
+label {
+    margin-left: 1vw;
+    color: #000000;
+}
+
+#enviar {
+    width: 30vw;
+    background-color: #2c2c2c;
+    border-radius: 5px;
+    color: #f5f5f5;
+}
+
+
+.descricao_produto {
+    display: inline-block;
+}
+
+.container_cadastrar_produto {
+    margin-left: 10vw;
+    margin-top: 7vh;
+}
+
+#descricao {
+    background-color: #b7d5e7;
+    border-radius: 20px;
+    border: 3px solid #040066;
+    width: 20vw;
+    height: 5vh;
+}
+
+#carregar_imagem {
+    background-color: #b7d5e7;
+    border-radius: 20px;
+    border: 3px solid #040066;
+    width: 8vw;
+    height: 5vh;
+}
+
+
+.container_valor {
+    margin-left: 10vw;
+    margin-top: 7vh;
+}
+
+input::placeholder {
+    color: black;
+    font-size: 10px;
+}
+
+.linha {
+    background-color: black;
+    height: 0.4vh;
+    width: 94.5%;
+    margin-top: 2vh;
+}
+
+.linha_dois {
+    background-color: black;
+    height: 0.5vh;
+    width: 94.5%;
+    margin-top: 5vh;
+}
+
+
+.container_valor {
+    margin-left: 0;
+    margin-top: 4vh;
+}
+
+#valor_produto {
+    border: 3px solid #040066;
+    border-radius: 20px;
+    background-color: #b7d5e7;
+    width: 76.5vw;
+    height: 5vh;
+}
+
+.linha_tres {
+    background-color: black;
+    height: 0.4vh;
+    width: 94.5%;
+    margin-top: 5vh;
+}
+
+.container_quantidade_produto {
+    margin-left: 0;
+    margin-top: 4vh;
+    display: inline-block;
+}
+
+
+#quantidade {
+    margin-top: 1vh;
+    background-color: #b7d5e7;
+    width: 76.5vw;
+    height: 5vh;
+    border: 3px solid #040066;
+    border-radius: 20px;
+}
+
+main {
+    display: flex;
+    flex-wrap: wrap;
+
+
+}
+
+.card_um {
+    width: 15vw;
+    height: 17vh;
+    background-image: linear-gradient(163deg, #000000 0%, #3700ff 100%);
+    border-radius: 20px;
+    transition: all .3s;
+    color: white;
+}
+
+.card2 {
+    width: 15vw;
+    height: 17vh;
+    background-color: rgba(0, 0, 0, 0.68);
+    border-radius: 20px;
+    transition: all .8s;
+    p {
+        padding-top: 1vh;
+        padding-left: 3vw;
+    }
+}
+
+.atributo {
+    display: inline-block;
+}
+.referencia {
+    display: inline-block;
+}
+.container_card_produtos {
+    padding-left: 3vw;
+    padding-top: 2.5vh;
+
+}
+
+.card2:hover {
+    transform: scale(1.05);
+    border-radius: 20px;
+}
+
+.card_um:hover {
+    box-shadow: 10px 10px 30px 1px rgb(0, 0, 0);
+}
+
+
+
+.pagination {
+    position: fixed; /* Fixa a paginação no canto inferior da tela */
+    top: 5vh; /* Distância do fundo da tela */
+    left: 90%; /* Move para o centro */
+    p {
+        color: white;
+    }
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% for produto in atributos_produto %}
+
+
+
+
+
+ID
+Nome
+Preço
+Descrição
+
+
+{{ produto.id_produto }}
+{{ produto.descricao }}
+{{ produto.valor_produto }}
+{{ produto.quantidade_produto }}
+
+
+{% endfor %}
+
+
+.card {
+    max-height: 10vh; /* Ajuste conforme necessário */
+    overflow: hidden; /* Para esconder o conteúdo que ultrapassa a altura */
+    border: 2px solid black;
+    width: 10vw;
+    margin: 4px;
+}
+
+
+
+{% extends 'home.html' %}
+
+{% block conteudo %}
+
+<div class="container_produtos">
+    {% for produto in atributos_produto %}
+    <div class="container_card_produtos">
+        <div class="card_um">
+            <div class="card2">
+                <p>
+                    id: {{ produto.id_produto }}
+                </p>
+                <p>
+                    descrição: {{ produto.descricao }}
+                </p>
+                <p>
+                    valor: {{ produto.valor_produto }}
+                </p>
+                <p>
+                    quantidade: {{ produto.quantidade_produto }}
+                </p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="pagination">
+    {% if pagina_atual > 1 %}
+        <a href="{{ url_for('produtos', pagina=pagina_atual - 1) }}">Anterior</a>
+    {% endif %}
+
+    {% for p in range(1, total_paginas + 1) %}
+        {% if p == pagina_atual %}
+            <strong>{{ p }}</strong>
+        {% else %}
+            <a href="{{ url_for('produtos', pagina=p) }}">{{ p }}</a>
+        {% endif %}
+    {% endfor %}
+
+    {% if pagina_atual < total_paginas %}
+        <a href="{{ url_for('produtos', pagina=pagina_atual + 1) }}">Próxima</a>
+    {% endif %}
+</div>
+
+{% endblock %}
+
+
+
+
+
+

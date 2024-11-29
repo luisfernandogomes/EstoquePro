@@ -1,0 +1,24 @@
+{% extends 'home.html' %}
+
+
+{% block conteudo %}
+
+{%- for mensagem in get_flashed_messages() -%}
+    {{mensagem}}
+{%- endfor %}
+
+
+
+<form method="POST" action="{{ url_for('cadastrar_categoria', id_categoria=Categoria.id_categoria) }}">
+{{categoria_editado}}
+    <div class="descricao_produto">
+        <label class="nome" for="nome">nome da categoria:</label>
+        <input type="text" id="nome" name="nome" value="{{ id_categoria }}" >
+
+
+        <button id="enviar" type="submit" value="Registrar"> registrar</button>
+    </div>
+</form>
+
+
+{% endblock%}

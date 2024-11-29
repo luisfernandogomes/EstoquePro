@@ -1,0 +1,45 @@
+{% extends 'home.html' %}
+
+
+{% block conteudo %}
+
+{% for item in atributos_produto %}
+<div class="container_card_produtos">
+
+
+    <div class="card_um">
+        <div class="card2">
+            <p>
+                id: {{ item.produto.id_produto }}
+            </p>
+            <p>
+                descrição: {{ item.produto.descricao }}
+            </p>
+            <p>
+                valor: {{ item.produto.valor_produto }}
+            </p>
+            <p>
+                quantidade: {{ item.produto.quantidade_produto }}
+            </p>
+            {% if item.categoria %}
+                <p>
+                    {{ item.categoria.nome }}    id  {{ item.produto.categoria_id }}
+                </p>
+            {% endif %}
+
+
+        </div>
+    </div>
+</div>
+
+<div class="pagination">
+    {% if pagina_atual > 1 %}
+    <a href="{{ url_for('produtos', pagina=pagina_atual - 1) }}"><p>Anterior</p></a>
+    {% endif %}
+
+    {% if pagina_atual < total_paginas %}
+    <a href="{{ url_for('produtos', pagina=pagina_atual + 1) }}"><p>Próxima</p></a>
+    {% endif %}
+</div>
+{% endfor %}
+{% endblock%}

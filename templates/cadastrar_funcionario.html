@@ -1,0 +1,35 @@
+{% extends 'home.html' %}
+
+
+{% block conteudo %}
+
+{%- for mensagem in get_flashed_messages() -%}
+    {{mensagem}}
+{%- endfor %}
+
+
+<form method="POST" action="{{ url_for('cadastrar_funcionario') }}">
+
+    <div class="descricao_produto3">
+        <div>
+            <label class="nome" for="quantidade_produto">nome do funcionario:</label>
+            <input type="text" id="quantidade_produto" name="nome_funcionario">
+        </div>
+        <div>
+            <label class="nome" for="CNPJ_fornecedor">CPF do funcionario:</label>
+            <input type="number" id="CNPJ_fornecedor" name="CPF">
+        </div>
+        <div>
+            <label class="nome" for="id_funcionario">salario do funcionario:</label>
+            <input type="number" id="id_funcionario" name="salario">
+        </div>
+
+
+        <button id="enviar" type="submit" value="Registrar">resgistrar </button>
+    </div>
+</form>
+
+
+{% endblock%}
+
+

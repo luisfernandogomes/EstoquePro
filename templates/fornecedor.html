@@ -1,0 +1,22 @@
+{% extends 'home.html' %}
+
+{% block conteudo %}
+
+{% for fornecedor in atributos_fornecedor %}
+<div class="card2" >
+
+    {{ fornecedor.nome_fornecedor }}
+    {{ fornecedor.CNPJ_fornecedor }}
+
+</div>
+
+
+
+
+
+
+
+
+
+{% endfor %}
+{% endblock%}

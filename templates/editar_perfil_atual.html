@@ -1,0 +1,50 @@
+{% extends 'home.html' %}
+
+
+{% block conteudo %}
+<main>
+    <div class="container_formulario">
+        <form method="POST" action="{{ url_for('editar_proprio_usuario', usuario_id=current_user.id) }}">
+            <div class="formulario">
+                <label class="descricao" for="nome">Insira nome do cliente</label>
+                <input class="input" type="text" id="nome" name="nome"  value="{{ current_user.nome }}" >
+            </div>
+            <div class="formulario">
+                <label class="descricao" for="email">Email:</label>
+                <input class="input" type="email" id="email" name="email" value="{{ current_user.email }}" >
+            </div>
+            <div class="formulario">
+                <label class="descricao" for="senha">Insira uma senha forte:</label>
+                <input class="input" type="password" id="senha" name="senha" value="nova senha" >
+            </div>
+            <div class="formulario">
+                <label class="descricao" for="telefone">Insira seu telefone:</label>
+                <input class="input" type="number" id="telefone" name="telefone" value="{{ current_user.telefone }}" >
+            </div>
+            <div class="formulario">
+                <label class="descricao" for="CNPJ">Insira o CNPJ da empresa:</label>
+                <input class="input" type="number" name="CNPJ" id="CNPJ" value="{{ current_user.CNPJ }}" >
+            </div>
+            <div class="formulario">
+                <label for="admin_">Admin True</label>
+                <input id="admin_" name="admin" type="radio" value="True" value="{{ current_user.admin }}" >
+            </div>
+            <div class="formulario">
+                <label for="admin">Admin False</label>
+                <input id="admin" name="admin" type="radio" value="False" value="{{ current_user.admin }}" >
+            </div>
+
+            <div class="formulario">
+                <label for="status_true">Status True</label>
+                <input id="status_true" name="status" type="radio" value="True">
+            </div>
+            <div class="formulario">
+                <label for="status_false">status False</label>
+                <input id="status_false" name="status" type="radio" value="False">
+            </div>
+            <button id="resetar" type="reset">resetar</button>
+            <button id="enviar" type="submit">registrar</button>
+        </form>
+    </div>
+</main>
+{% endblock %}

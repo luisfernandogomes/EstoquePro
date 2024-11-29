@@ -1,0 +1,27 @@
+{% extends 'home.html' %}
+
+
+{% block conteudo %}
+
+
+{% for item in atributos_movimentacao_entrada %}
+    <div class="card3">
+        <p>Id Movimentação Entrada: {{ item.Movimentacao_entrada.id_movimentacao }}</p>
+        <p>Quantidade Produto: {{ item.Movimentacao_entrada.quantidade_produto }}</p>
+        <p>Id Produto: {{ item.Movimentacao_entrada.id_produto }}</p>
+        <p>Data Movimentação: {{ item.Movimentacao_entrada.data_movimentacao }}</p>
+        <p>Id Funcionário: {{ item.Funcionario.id_funcionario }}</p>
+        <p>Nome Funcionário: {{ item.Funcionario.nome_funcionario }}</p>
+    </div>
+{% endfor %}
+{% endblock%}
+
+
+
+
+
+
+
+
+
+

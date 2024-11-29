@@ -1,0 +1,13 @@
+{% extends 'home.html' %}
+
+{% block conteudo %}
+
+    {% for funcionario in atributos_funcionario %}
+
+
+        {{ funcionario.nome_funcionario }}
+        {{ funcionario.CPF }}
+        {{ funcionario.salario }}
+
+    {% endfor %}
+{% endblock%}

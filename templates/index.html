@@ -1,0 +1,31 @@
+{% extends 'home.html' %}
+
+
+{% block conteudo %}
+    <selection class="selection">
+        <div class="column">
+            <div class="column ">
+                <input type="text" class="input" placeholder="pesquisar">
+            </div>
+        </div>
+    </selection>
+
+    {% for categoria in atributos_categoria %}
+        <thead>
+        <tr>
+            <th> id </th>
+            <th> categoria</th>
+        </tr>
+        </thead>
+        <tbody>
+        
+        </tbody>
+            id: {{ categoria.id_categoria }}
+
+
+                id: {{ categoria.nome }}
+
+
+
+    {% endfor %}
+{% endblock %}

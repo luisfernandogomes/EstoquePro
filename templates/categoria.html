@@ -1,0 +1,22 @@
+{% extends 'home.html' %}
+
+
+{% block conteudo %}
+
+
+{% for categoria in atributos_categoria %}
+<div class="card">
+    <p>id: {{ categoria.id_categoria }}
+    </p>
+    <p>
+        id: {{ categoria.nome }}
+    </p>
+
+    <a href="{{ url_for('atualizar_categoria', id_categoria=categoria.id_categoria) }}">editar</a>
+
+</div>
+<br>
+
+
+{% endfor %}
+{% endblock%}
