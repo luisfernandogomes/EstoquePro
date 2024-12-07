@@ -1,21 +1,24 @@
-{% extends 'home.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gráficos de Estoque</title>
+    <link rel="stylesheet" href="/static/dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
 
 
-{% block conteudo %}
-<main style="background-color: #1c1c5d; ">
-<link rel="stylesheet" href="/static/dashboard.css">
-<script
-        src="https://cdn.jsdelivr.net/npm/chart.js">
 
-</script>
 
-<p class="titulo_grafico" >Gráficos do Estoque</p>
-<div class="grafico_movimentacoes">
-    <h2 class="titulo_produtoss">Movimentações de Produtos</h2>
+<a href="home" class="titulo_grafico" >Gráficos de Estoque</a>
+<div class="grafico_movimentacoes" >
+    <h2 class="titulo_produtoss" >Movimentações de Produtos</h2>
     <canvas id="movimentacoesChart"></canvas>
 </div>
-<div class="grafico_produtos">
-    <h2 class="titulo_produtos">Quantidade em Estoque por Produto</h2>
+<div class="grafico_produtos" >
+    <h2 class="titulo_produtos" >Quantidade em Estoque por Produto</h2>
     <canvas id="produtosChart"></canvas>
 </div>
 <script>
@@ -123,5 +126,5 @@
     carregarGraficoMovimentacoes();
     carregarGraficoProdutos();
 </script>
-</main>
-{% endblock %}
+</body>
+</html>

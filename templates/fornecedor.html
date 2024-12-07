@@ -4,10 +4,10 @@
 
 {% for fornecedor in atributos_fornecedor %}
 <div class="card2" >
-
-    {{ fornecedor.nome_fornecedor }}
-    {{ fornecedor.CNPJ_fornecedor }}
-
+    id: {{ fornecedor.id_fornecedor }}
+    nome: {{ fornecedor.nome_fornecedor }}
+    CNPJ: {{ fornecedor.CNPJ_fornecedor }}
+    <a href="{{ url_for('atualizar_fornecedor', id_fornecedor=fornecedor.id_fornecedor) }}">editar</a>
 </div>
 
 

@@ -4,19 +4,47 @@
 {% block conteudo %}
 
 
-{% for categoria in atributos_categoria %}
-<div class="card">
-    <p>id: {{ categoria.id_categoria }}
-    </p>
-    <p>
-        id: {{ categoria.nome }}
-    </p>
 
-    <a href="{{ url_for('atualizar_categoria', id_categoria=categoria.id_categoria) }}">editar</a>
 
+
+
+<div class="tabela-container" >
+<table>
+    <thead>
+    <tr>
+        <th>
+            id
+        </th>
+        <th>
+            categoria
+        </th>
+        <th>
+            atualizar
+        </th>
+        <th>
+            deletar
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+        {% for categoria in atributos_categoria %}
+        <tr>
+            <td>
+                {{ categoria.id_categoria }}
+            </td>
+            <td>
+                {{ categoria.nome }}
+            </td>
+            <td>
+                <a style="text-decoration: none; color: white; "  href="{{url_for('atualizar_categoria', id_categoria=categoria.id_categoria) }}">editar</a>
+            </td>
+            <td>
+                <a style="text-decoration: none; color: white; "  href="{{url_for('deletar_categoria', id_categoria=categoria.id_categoria) }}">deletar</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 </div>
-<br>
-
-
-{% endfor %}
+<a style="font-size: 17px" class="cadastrar_produto_novo"  href="categoria/cadastrar">Cadastrar categoria</a>
 {% endblock%}

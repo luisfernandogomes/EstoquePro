@@ -1,0 +1,47 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #0b0b36;
+}
+main {
+    background-color: #eeeeee;
+}
+.grafico_movimentacoes {
+    top: 200px;
+    width: 35vw;
+    position: absolute;
+    left: 12vw;
+
+}
+.grafico_produtos {
+    top: 200px;
+    position: absolute;
+    left: 50vw;
+    width: 45vw;
+
+
+}
+.titulo_grafico{
+    color: gold;
+    text-shadow: 1px 1px 10px black;
+    position: absolute;
+    top: 18%;
+    left: 42%;
+    font-size: 35px;
+    font-weight: bold;
+    text-decoration: none;
+
+}
+.titulo_produtos{
+    color: gold;
+    text-shadow: 1px 1px 10px black;
+    text-align: center;
+}
+.titulo_produtoss {
+    color: gold;
+    text-shadow: 1px 1px 10px black;
+    text-align: center;
+}

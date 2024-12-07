@@ -2,18 +2,42 @@
 
 
 {% block conteudo %}
+<main>
 
+    {% for item in atributos_movimentacao_entrada %}
+    <div class="cards_tabelas">
 
-{% for item in atributos_movimentacao_entrada %}
-    <div class="card3">
         <p>Id Movimentação Entrada: {{ item.Movimentacao_entrada.id_movimentacao }}</p>
         <p>Quantidade Produto: {{ item.Movimentacao_entrada.quantidade_produto }}</p>
         <p>Id Produto: {{ item.Movimentacao_entrada.id_produto }}</p>
         <p>Data Movimentação: {{ item.Movimentacao_entrada.data_movimentacao }}</p>
         <p>Id Funcionário: {{ item.Funcionario.id_funcionario }}</p>
         <p>Nome Funcionário: {{ item.Funcionario.nome_funcionario }}</p>
+
     </div>
-{% endfor %}
+
+    {% endfor %}
+
+    <a class="cadastrar_movimentacao_entrada" href="{{ url_for('cadastrar_movimentacao_entrada') }}">Nova
+        movimentação</a>
+    <div class="pagination">
+        {% if pagina_atual > 1 %}
+        <a href="{{ url_for('movimentacao_entrada', pagina_atual=pagina_atual - 1) }}" class="prev">Anterior</a>
+        {% endif %}
+
+        {% for pagina in range(1, total_paginas + 1) %}
+        <a href="{{ url_for('movimentacao_entrada', pagina_atual=pagina) }}"
+           class="{% if pagina == pagina_atual %}active{% endif %}">{{ pagina }}</a>
+        {% endfor %}
+
+        {% if pagina_atual < total_paginas and total_paginas > 1 %}
+        <a href="{{ url_for('movimentacao_entrada', pagina_atual=pagina_atual + 1) }}" class="next">Próxima</a>
+        {% endif %}
+    </div>
+
+
+</main>
+
 {% endblock%}
 
 

@@ -2,27 +2,30 @@
 
 
 {% block conteudo %}
-
+{%- for mensagem in get_flashed_messages()%}
+    <div class="flash-message">
+        {{ mensagem }}
+        <button class="close-btn" onclick="this.parentElement.style.display='none';">&times;</button>
+    </div>
+    {%- endfor %}
 <form method="POST" action="{{ url_for('cadastrar_produto') }}">
 
-    {%- for mensagem in get_flashed_messages()%}
-        {{mensagem}}
-    {%- endfor %}
+
 
 
     <div class="descricao_produto6">
-        <div>
+        <div class="formulario" >
             <label class="descricao" for="nome_produto">nome do produto:</label>
-            <input type="text" id="nome_produto" name="descricao">
+            <input class="input_produto" type="text" id="nome_produto" name="descricao">
         </div>
-        <div>
+        <div class="formulario_dois" >
             <label class="descricao" for="valor">valor do produto:</label>
-            <input type="number" id="valor" step="0.01" name="valor_produto">
+            <input class="input_produto" type="number" id="valor" step="0.01" name="valor_produto">
         </div>
         <div class="formulario">
-            <label class="descricao" for="categoria">categoria:</label>
+            <label class="descricao_select" for="categoria"></label>
             <select id="categoria" name="id_categoria">
-                <option value="" selected>Escolha uma categoria</option>
+                <option class="titulo_categoria" value="" selected>Escolha uma categoria</option>
                 {% for categoria in atributos %}
                 <option value="{{categoria.id_categoria}}">{{ categoria.nome }}</option>
                 {% endfor %}
@@ -30,7 +33,7 @@
         </div>
 
 
-        <button id="enviar" type="submit" value="Registrar">registrar </button>
+        <button class="registrar_funcionario" id="enviar" type="submit" value="Registrar">Registrar produto</button>
     </div>
 </form>
 

@@ -1,8 +1,9 @@
 from argon2 import PasswordHasher, verify_password, exceptions
-from sqlalchemy import create_engine, Column, Integer, ForeignKey, String, Boolean, DateTime, Float, Date
+from sqlalchemy import create_engine, Column, Integer, ForeignKey, String, Boolean, DateTime, Float, Date, func
 # em baixo importamos session(gerenciar)  e sessiomaker(construir)
 from sqlalchemy.orm import scoped_session, sessionmaker, declarative_base, relationship
 from flask_login import UserMixin
+from flask import jsonify
 
 
 # configura conexao com banco de dados

@@ -1,0 +1,47 @@
+{% extends 'home.html' %}
+
+
+{% block conteudo %}
+{%- for mensagem in get_flashed_messages()%}
+<div class="flash-message">
+    {{ mensagem }}
+    <button class="close-btn" onclick="this.parentElement.style.display='none';">&times;</button>
+</div>
+{%- endfor %}
+<form method="POST" action="{{ url_for('atualizar_produto', id_produto = produto_editado.id_produto ) }}">
+
+
+    <div class="descricao_produto6">
+        <div class="formulario" >
+            <label class="descricao" for="nome_produto">nome do produto:</label>
+            <input class="input_produto" type="text" id="nome_produto" name="descricao" value="{{ produto_editado.descricao }}">
+        </div>
+        <div class="formulario_dois" >
+            <label class="descricao" for="valor">valor do produto:</label>
+            <input class="input_produto" type="number" id="valor" step="0.01" name="valor_produto"
+                   value="{{ produto_editado.valor_produto }}">
+        </div>
+
+
+        <div class="formulario">
+            <label class="descricao_select" for="categoria"></label>
+            <select id="categoria" name="categoria_id">
+                <option class="titulo_categoria" value="">Escolha uma categoria</option>
+
+
+                {% for categoria in atributos_categoria %}
+                <option value="{{ categoria.id_categoria }}"
+                        {% if categoria.id_categoria== produto_editado.categoria_id %} selected {% endif %}>
+                    {{ categoria.nome }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+
+
+        <button class="registrar_funcionario" id="enviar" type="submit" value="Registrar">Atualizar produto</button>
+    </div>
+</form>
+
+
+{% endblock %}

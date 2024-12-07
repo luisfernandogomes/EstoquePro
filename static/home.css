@@ -1,15 +1,15 @@
 * {
     padding: 0;
     margin: 0;
-    box-sizing: border-box; /* Add this to ensure consistent sizing */
+    box-sizing: border-box;
 
 }
 
 header {
-    background-color: #030131; /* Light gray background */
+    background-color: #030131;
     display: inline-block;
     width: 100vw;
-    height: 15vh; /* Increased height */
+    height: 15vh;
 
 
 }
@@ -18,7 +18,7 @@ h1 {
     display: inline-block;
     color: #ffdc00;
     margin-top: 2vh;
-    font-size: 55px; /* Increased font size */
+    font-size: 55px;
     text-shadow: 1px 1px 8px #000000;
 }
 
@@ -49,5 +49,530 @@ main {
     height: 85vh;
     background-color: #60bbf3;
     color: #000000;
+}
+
+.tabela-container {
+    color: white;
+
+    width: 100%;
+    max-width: 1200px;
+    height: 600px;
+    overflow-y: scroll;
+    margin-bottom: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: rgba(3, 1, 49, 0.62);
+}
+
+th, td {
+    height: 90px;
+    text-align: center;
+    border: 1px solid #0b0b36;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+th {
+    background-color: #4c93c0;
+}
+
+.cadastrar_produto_novo {
+    position: absolute;
+    right: 11px;
+    top: 150px;
+    text-decoration: none;
+    color: gold;
+    font-size: 18px;
+    text-shadow: 5px 3px 10px #000000;
+    transition: all .5s;
+    font-weight: bold;
+}
+
+
+.cards_tabelas {
+    text-shadow: 1px 1px 10px black;
+    color: #1c1c5d;
+    display: inline-block;
+    border: 4px solid black;
+    border-radius: 10px;
+    width: 20vw;
+    height: 20vh;
+    margin-left: 3vw;
+    margin-top: 5vh;
+    transition: all .5s;
+    background-color: rgba(255, 255, 255, 0.54);
+}
+
+.cards_tabelas:hover {
+    border: 4px solid #fffcfc;
+    box-shadow: 10px 10px 30px 1px rgb(0, 0, 0);
+    transform-origin: left;
+    transform: scale(1.2);
+    transition: transform 0.3s unset;
+}
+
+.cadastrar_movimentacao_entrada {
+    position: absolute;
+    right: 70px;
+    top: 150px;
+    text-decoration: none;
+    color: gold;
+    font-size: 18px;
+    text-shadow: 5px 3px 10px #000000;
+    transition: all .5s;
+    font-weight: bold;
+}
+
+.img_home {
+    text-decoration: none;
+}
+
+img {
+    margin-top: 2vh;
+    margin-left: 3vw;
+    width: 5vw;
+    height: 10vh;
+}
+
+.descricao_produto {
+    padding-top: 24vh;
+    padding-left: 55vw;
+
+    .formulario_cadastro_produto {
+    }
+
+    .descricao {
+        display: block;
+        color: gold;
+        text-shadow: 1px 1px 10px black;
+        font-size: 26px;
+        font-weight: bold;
+    }
+
+    .input {
+        box-shadow: 1px 1px 10px black;
+        background-color: #030131;
+        border: none;
+        border-radius: 10px;
+        color: white;
+        font-size: large;
+        width: 40vw;
+        height: 5vh;
+    }
+
+
+    .cadastrar_categoria {
+        margin-bottom: 1vh;
+        background-color: #030131;
+        width: 15vw;
+        height: 6vh;
+        margin-top: 2vh;
+        margin-left: 20%;
+        border-radius: 10px;
+        border: 3px solid black;
+        color: gold;
+        transition: all .5s;
+        font-weight: bold;
+        font-size: large;
+    }
+
+    .cadastrar_categoria:active {
+        background-color: #000000;
+        color: white;
+    }
+
+    .cadastrar_categoria:hover {
+        transform-origin: center;
+        transform: scale(1.2);
+        transition: transform 2s unset;
+        text-shadow: 5px 5px 10px black;
+    }
+}
+
+.flash-message {
+    right: 10vw;
+    display: inline-block;
+    position: absolute;
+    padding: 15px;
+    background-color: #000000;
+    color: #fff;
+    border-radius: 5px;
+    margin: 10px 0;
+    text-shadow: 1px 1px 10px white;
+}
+
+.flash-message .close-btn {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 16px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.container_txt_categoria {
+    position: absolute;
+    left: 17vw;
+    top: 25vh;
+    color: gold;
+    text-shadow: 1px 1px 10px black;
+    font-weight: bold;
+
+    .txt_categoria {
+        font-size: 22px;
+    }
+
+    .txt_categoria_existente {
+        margin-top: 5vh;
+        font-size: 22px;
+    }
+}
+
+.voltar_categorias {
+    text-align: center;
+    margin-bottom: 1vh;
+    background-color: #030131;
+    width: 14vw;
+    height: 5vh;
+    margin-top: 2vh;
+    margin-left: 20%;
+    border-radius: 10px;
+    border: 3px solid black;
+    color: gold;
+    transition: all .5s;
+    font-weight: bold;
+    font-size: large;
+    text-decoration: none;
+}
+
+.voltar_categorias:active {
+    background-color: #000000;
+    color: white;
+}
+
+.voltar_categorias:hover {
+    transform-origin: center;
+    transform: scale(1.2);
+    transition: transform 2s unset;
+    text-shadow: 5px 5px 10px black;
+}
+
+form {
+    .formulario_funcionarios {
+        padding-top: 10vh;
+        padding-left: 20vw;
+
+        .formulario_funcionario_forms {
+            padding-top: 3vh;
+        }
+
+        .descricao_funcionario {
+            display: block;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .input_funcionario {
+            width: 70vw;
+            height: 8vh;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 1px 1px 10px black;
+            background-color: #030131;
+            color: white;
+            font-size: large;
+        }
+    }
+
+    .registrar_funcionario {
+        text-align: center;
+        margin-bottom: 1vh;
+        background-color: #030131;
+        width: 14vw;
+        height: 5vh;
+        margin-top: 5vh;
+        margin-left: 35%;
+        border-radius: 10px;
+        border: 3px solid black;
+        color: gold;
+        transition: all .5s;
+        font-weight: bold;
+        font-size: large;
+        text-decoration: none;
+    }
+
+    .registrar_funcionario:active {
+        background-color: #000000;
+        color: white;
+    }
+
+    .registrar_funcionario:hover {
+        transform-origin: center;
+        transform: scale(1.2);
+        transition: transform 2s unset;
+        text-shadow: 5px 5px 10px black;
+    }
+
+}
+
+.descricao_produto6 {
+    padding-top: 10vh;
+    padding-left: 20vw;
+
+    .formulario {
+
+
+    }
+
+
+}
+
+.formulario_dois {
+    padding-top: 5vh;
+
+}
+
+#categoria {
+
+}
+
+.titulo_categoria {
+
+}
+
+select {
+    margin-top: 8vh;
+    text-align: center;
+    width: 20vw;
+    overflow-y: auto;
+    color: white;
+    background-color: rgb(3, 1, 49);
+    border-radius: 10px;
+    text-shadow: 1px 1px 10px black;
+    font-size: large;
+    transition: all .5s;
+}
+
+select:hover {
+    border: 4px solid #fffcfc;
+    box-shadow: 10px 10px 30px 1px rgb(0, 0, 0);
+    transform-origin: center;
+    transform: scale(1.2);
+    transition: transform 0.3s unset;
+}
+
+option {
+    background-color: #030131;
+    color: white;
+    overflow-y: auto;
+}
+
+option:hover {
+
+}
+
+
+.descricao_select {
+    display: block;
+    color: gold;
+    text-shadow: 1px 1px 10px black;
+    font-weight: bold;
+    font-size: 24px;
+}
+
+.descricao {
+    display: block;
+    color: gold;
+    text-shadow: 1px 1px 10px black;
+    font-weight: bold;
+    font-size: 24px;
+}
+
+
+.input_produto {
+    background-color: #030131;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 1px 1px 10px black;
+    color: white;
+    font-size: large;
+    width: 70vw;
+    height: 7vh;
+}
+
+.texto_deletar_produto {
+    color: gold;
+    text-shadow: 1px 1px 10px black;
+    font-size: xx-large;
+    font-weight: bold;
+
+}
+
+.produto_deletar {
+    padding-top: 10vh;
+    padding-left: 33%;
+}
+
+.container_deletar {
+    padding-top: 10vh;
+    padding-left: 50%;
+}
+
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    position: absolute;
+    right: 40vw;
+    bottom: 2vh;
+}
+
+.pagination a {
+    text-decoration: none;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    color: #333;
+}
+
+.pagination a.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+.pagination a:hover {
+    background-color: #f1f1f1;
+}
+
+.registrar_funcionario1 {
+    text-align: center;
+    margin-bottom: 1vh;
+    background-color: #030131;
+    width: 14vw;
+    height: 5vh;
+    border-radius: 10px;
+    border: 3px solid black;
+    color: gold;
+    transition: all .5s;
+    font-weight: bold;
+    font-size: large;
+    position: absolute;
+    right: 50vw;
+}
+
+.registrar_funcionario1:active {
+    background-color: #000000;
+    color: white;
+}
+
+.registrar_funcionario1:hover {
+    transform-origin: center;
+    transform: scale(1.2);
+    transition: transform 2s unset;
+    text-shadow: 5px 5px 10px black;
+}
+
+
+.registrar_funcionario2 {
+    right: 33vw;
+    margin-bottom: 1vh;
+    background-color: #030131;
+    width: 14vw;
+    height: 5vh;
+    position: absolute;
+    border-radius: 10px;
+    border: 3px solid black;
+    color: gold;
+    transition: all .5s;
+    font-weight: bold;
+    font-size: large;
+
+}
+
+.registrar_funcionario2:active {
+    background-color: #000000;
+    color: white;
+}
+
+.registrar_funcionario2:hover {
+    transform-origin: center;
+    transform: scale(1.2);
+    transition: transform 2s unset;
+    text-shadow: 5px 5px 10px black;
+}
+
+.form_movimentacao {
+    padding-top: 10vh;
+    padding-left: 20vw;
+}
+
+.descricao_movimentacao {
+    display: block;
+    color: gold;
+    text-shadow: 1px 1px 10px black;
+    font-weight: bold;
+    font-size: 24px;
+
+}
+
+.input_movimentacao {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 1px 1px 10px black;
+    background-color: #030131;
+    color: white;
+    font-size: large;
+    height: 8vh;
+    width: 70vw;
+
+}
+
+
+.input_movimentacaoo {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 1px 1px 10px black;
+    background-color: #030131;
+    color: white;
+    font-size: large;
+    height: 8vh;
+    width: 70vw;
+    text-align: center;
+}
+
+.form_atualizar_categoria {
+    padding-top: 20vh;
+    padding-left: 20vw;
+}
+
+.descricao_atualizar_categoria {
+    display: block;
+    color: gold;
+    text-shadow: 1px 1px 10px black;
+    font-weight: bold;
+    font-size: 24px;
+}
+
+.input_atualizar_categoria {
+    background-color: #030131;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 1px 1px 10px black;
+    color: white;
+    font-size: large;
+    width: 70vw;
+    height: 7vh;
+}
+
+.container_cadastrar_fornecedor {
+    padding-top: 15vh;
+    padding-left: 20vw;
 }
 

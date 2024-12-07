@@ -2,12 +2,47 @@
 
 {% block conteudo %}
 
-    {% for funcionario in atributos_funcionario %}
 
 
-        {{ funcionario.nome_funcionario }}
-        {{ funcionario.CPF }}
-        {{ funcionario.salario }}
+<div class="tabela-container" >
 
-    {% endfor %}
+
+<table>
+    <thead>
+    <tr>
+        <th>
+            id
+        </th>
+        <th>
+            nome
+        </th>
+        <th>
+            CPF
+        </th>
+        <th>
+            salario
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+        {% for funcionario in atributos_funcionario %}
+        <tr>
+            <td>
+                {{ funcionario.id_funcionario }}
+            </td>
+            <td>
+                {{ funcionario.nome_funcionario }}
+            </td>
+            <td>
+                {{ funcionario.CPF }}
+            </td>
+            <td>
+                {{ funcionario.salario }}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+<a style="font-size: 16px;" class="cadastrar_produto_novo" href="funcionario/cadastrar">Cadastrar funcionario</a>
 {% endblock%}
