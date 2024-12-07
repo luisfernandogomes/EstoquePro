@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="EstoquePro" uuid="996b0700-170c-4774-932a-254bbebf5311">
+    <data-source source="LOCAL" name="EstoquePro" uuid="a45f7cb9-a18f-4990-8d87-6788670d1fb6">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:C:\Temp\atu\EstoquePro\EstoquePro</jdbc-url>
+      <jdbc-url>jdbc:sqlite:C:\ub\dia05-12-2024\EstoquePro\EstoquePro</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
       <libraries>
         <library>

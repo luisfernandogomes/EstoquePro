@@ -1,0 +1,40 @@
+{% extends 'home.html' %}
+
+
+{% block conteudo %}
+<main>
+    {%- for mensagem in get_flashed_messages()%}
+    <div class="flash-message">
+        {{ mensagem }}
+        <button class="close-btn" onclick="this.parentElement.style.display='none';">&times;</button>
+    </div>
+    {%- endfor %}
+
+
+    <form method="POST"
+          action="{{ url_for('atualizar_funcionario', id_funcionario = funcionario_editado.id_funcionario) }}">
+
+        <div class="descricao_produto3">
+            <div>
+                <label class="nome" for="quantidade_produto">nome do funcionario:</label>
+                <input type="text" id="quantidade_produto" name="nome_funcionario"
+                       value="{{ funcionario_editado.nome_funcionario }}">
+            </div>
+            <div>
+                <label class="nome" for="CNPJ_fornecedor">CPF do funcionario:</label>
+                <input type="number" id="CNPJ_fornecedor" name="CPF" value="{{ funcionario_editado.CPF }}">
+            </div>
+            <div>
+                <label class="nome" for="id_funcionario">salario do funcionario:</label>
+                <input type="number" id="id_funcionario" name="salario" value="{{ funcionario_editado.salario }}">
+            </div>
+
+            <a href="/funcionario">Funcionarios existentes</a>
+            <button id="enviar" type="submit" value="Registrar">resgistrar</button>
+        </div>
+    </form>
+
+</main>
+{% endblock%}
+
+

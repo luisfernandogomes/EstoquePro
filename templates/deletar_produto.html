@@ -1,0 +1,26 @@
+{% extends 'home.html' %}
+
+
+{% block conteudo %}
+
+
+{%- for mensagem in get_flashed_messages()%}
+<div class="flash-message">
+    {{ mensagem }}
+    <button class="close-btn" onclick="this.parentElement.style.display='none';">&times;</button>
+</div>
+{%- endfor -%}
+<div  class="produto_deletar">
+    {% if produto_deletar %}
+
+    <p class="texto_deletar_produto" >Tem certeza que deseja deletar produto {{ produto_deletar.descricao }} </p>
+
+    {% endif %}
+</div>
+<div class="container_deletar">
+    <form method="post" action="{{url_for('deletar_produto', id_produto = produto_deletar.id_produto )}}">
+        <button class="registrar_funcionario1" name="acao" id="enviar_delete" type="submit" value="deletar">deletar</button>
+        <button class="registrar_funcionario2" name="acao" id="cancelar_delete" type="submit" value="cancelar">cancelar</button>
+    </form>
+</div>
+{% endblock %}

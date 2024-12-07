@@ -9,12 +9,12 @@
 
 
 
-<form method="POST" action="{{ url_for('atualizar_categoria',id_categoria = categoria_editado.id_categoria) }}">
-    <div class="descricao_produto">
-        <label class="nome" for="nome">nome da categoria:</label>
-        <input type="text" id="nome" name="nome" >
+<form class="form_atualizar_categoria" method="POST" action="{{ url_for('atualizar_categoria',id_categoria = categoria_editado.id_categoria) }}">
+    <div class="container_atualizar_categoria">
+        <label class="descricao_atualizar_categoria" for="nome">nome da categoria:</label>
+        <input class="input_atualizar_categoria" type="text" id="nome" name="nome" value="{{ categoria_editado.nome }}">
 
-        <button id="enviar"  value="Registrar"> registrar</button>
+        <button class="registrar_funcionario" id="enviar"  value="Registrar"> registrar</button>
     </div>
 </form>
 

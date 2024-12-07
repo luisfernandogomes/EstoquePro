@@ -1,8 +1,11 @@
 * {
     margin: 0;
     padding: 0;
+    background-color: #172c6b;
 }
-
+main {
+    background-color: #172c6b;
+}
 /*area de testes*/
 .icon-container {
     position: absolute;
@@ -32,8 +35,8 @@
     position: absolute;
     bottom: 110%; /* Posiciona o texto acima do ícone */
     transform: translateX(-50%) translateY(10px); /* Ajusta centralização e início fora de vista */
-    background-color: #333;
-    color: #fff;
+    background-color: #ffffff;
+    color: #000000;
     padding: 5px 10px;
     border-radius: 5px;
     white-space: nowrap;
@@ -86,7 +89,7 @@ body {
 
     .ir_login:hover {
         background-color: rgba(0, 0, 0, 0.25);
-        border: 3px solid rgb(0, 0, 0);
+        border: 3px solid rgb(255, 255, 255);
         transform-origin: center;
         transform: scale(1.2);
         transition: transform 2s unset;
@@ -94,6 +97,7 @@ body {
     }
 
     button a {
+        background-color: rgba(23, 44, 107, 0);
         color: black;
         font-size: 22px;
         text-decoration: none;
@@ -102,6 +106,23 @@ body {
     }
 
     main {
+        .container_usuario_novo {
+            position: absolute;
+            top: 35vh;
+            left: 7.5vw;
+            font-weight: bold;
+            font-size: 20px;
+            color: gold ;
+            transition: all .5s;
+
+        }
+        .container_usuario_novo:hover {
+            transform-origin: center;
+            transform: scale(1.2);
+            transition: transform 2s unset;
+            text-shadow: 5px 5px 10px black;
+
+        }
         .grafico {
             position: absolute;
             top: 40vh;
@@ -169,7 +190,7 @@ body {
         }
 
         .container_formulario {
-            background-color: white;
+
             display: inline-block;
 
             border-radius: 10px;
@@ -180,7 +201,7 @@ body {
 
             .formulario {
                 display: block;
-
+                margin-top: 1vh;
                 input[type="number"]::-webkit-inner-spin-button,
                 input[type="number"]::-webkit-outer-spin-button {
                     -webkit-appearance: none;
@@ -189,20 +210,21 @@ body {
 
 
                 .descricao {
+                     font-weight: bold;
                     font-family: -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, helvetica, Cantarell, Ubuntu, roboto, noto, arial, sans-serif;
                     font-size: 22px;
                     display: inline-block;
                     width: 100%;
-                    text-shadow: 5px 3px 10px #000000;
-                    color: #030131;
+                    text-shadow: 0.5px 0.5px 10px rgba(191, 207, 255, 0.54);
+                    color: gold;
                 }
 
                 .input {
-                    color: #ffffff;
+                    color: #000000;
                     font-size: 22px;
                     border: none;
                     border-radius: 10px;
-                    background-color: rgba(0, 0, 0, 0.89);
+                    background-color: rgba(255, 255, 255, 0.89);
                     height: 5vh;
                     width: 100%;
                     display: block;

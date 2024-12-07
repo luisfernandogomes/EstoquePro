@@ -8,40 +8,36 @@
 {%- endfor %}
 
 
-<form method="POST" action="{{ url_for('cadastrar_movimentacao_entrada') }}">
+<form class="form_movimentacao" method="POST" action="{{ url_for('cadastrar_movimentacao_entrada') }}">
 
-    <div class="descricao_produto4">
-        <div>
-            <label class="nome" for="quantidade_produto">quantidade de produto:</label>
-            <input type="number" id="quantidade_produto" name="form_quantidade_produto">
+    <div class="container_movimentacao">
+        <div class="formulario_movimentacao" >
+            <label  class="descricao_movimentacao" for="quantidade_produto">quantidade de produto:</label>
+            <input class="input_movimentacao" type="number" id="quantidade_produto" name="form_quantidade_produto">
         </div>
-        <div>
-            <label class="nome" for="data_movimentacao">data da movimentacao:</label>
-            <input type="date" id="data_movimentacao" name="form_data_movimentacao">
-        </div>
+        <div class="formulario_movimentacao" >
+            <label  class="descricao_movimentacao" for="data_movimentacao">data da movimentacao:</label>
+            <input class="input_movimentacaoo" type="date" id="data_movimentacao" name="form_data_movimentacao">
+        </div  >
         <div class="formulario_cadastro_movimentacao_entrada">
-            <label class="nome" for="id_funcionarioo">id funcionario:</label>
-            <select name="form_id_funcionario" id="id_funcionarioo">
+            <label class="select" for="id_funcionarioo"></label>
+            <select style="width: 68vw; " name="form_id_funcionario" id="id_funcionarioo">
                 <option value="" selected>escolha o funcionario</option>
                 {% for funcionario in atributos_funcionario %}
                 <option value="{{funcionario.id_funcionario}}">{{funcionario.nome_funcionario}}</option>
                 {% endfor %}
             </select>
         </div>
-
-
         <div>
-            <label class="nome" for="id_produtooo">id produto:</label>
-            <select name="form_id_produto" id="id_produtooo">
+            <label class="nome" for="id_produtooo"></label>
+            <select style="width: 68vw; " name="form_id_produto" id="id_produtooo">
                 <option value="" selected>escolha o produto</option>
                 {% for produto in atributos_produto %}
                 <option value="{{produto.id_produto}}">{{produto.descricao}}</option>
                 {% endfor %}
             </select>
         </div>
-
-
-        <button id="enviar" type="submit" value="Registrar">registrar</button>
+        <button style="width: 20vw; margin-left: 24vw" class="registrar_funcionario" id="enviar" type="submit" value="Registrar">Registrar Movimentação</button>
     </div>
 </form>
 

@@ -2,23 +2,39 @@
 
 
 {% block conteudo %}
-
-{%- for mensagem in get_flashed_messages() -%}
-    {{mensagem}}
+<main>
+{%- for mensagem in get_flashed_messages()%}
+<div class="flash-message">
+    {{ mensagem }}
+    <button class="close-btn" onclick="this.parentElement.style.display='none';">&times;</button>
+</div>
 {%- endfor %}
 
+<div class="container_txt_categoria" >
+    <p class="txt_categoria" >
+        Categoria, para que serve categoria?<br>
+        A categoria serve para classificar os produtos, <br>
+        Para facilitar a identificação deles. <br>
+        Utilizando a categoria, podemos visualizar <br> e separar os prdutos por partes para a <br> facíl visualização
 
+    </p>
+    <p class="txt_categoria_existente" >
+        Está com dificuldade de saber se a categoria já existe?<br>
+        Caso tenha dificuldade de saber se a categoria ja existe,<br>
+        clique no botão de visualizar categorias já existentes <br>
+    </p>
+    <a style="text-decoration: none" href="/categoria"> <p class="voltar_categorias" > categorias existentes </p> </a>
+</div>
+<form method="POST" action="{{ url_for('cadastrar_categoria')}}">
 
-<form method="POST" action="{{ url_for('cadastrar_categoria', id_categoria=Categoria.id_categoria) }}">
-{{categoria_editado}}
     <div class="descricao_produto">
-        <label class="nome" for="nome">nome da categoria:</label>
-        <input type="text" id="nome" name="nome" value="{{ id_categoria }}" >
-
-
-        <button id="enviar" type="submit" value="Registrar"> registrar</button>
+        <div class="formulario_cadastro_categoria">
+            <label class="descricao" for="nome">nome da categoria</label>
+            <input class="input" type="text" id="nome" name="nome">
+        </div>
+        <button class="cadastrar_categoria" id="enviar" type="submit" value="Registrar"> registrar categoria</button>
     </div>
 </form>
 
-
+</main>
 {% endblock%}

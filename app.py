@@ -1,10 +1,9 @@
-# import io
-#
-# import matplotlib.pyplot as plt
+import io
 from datetime import datetime
-from flask import Flask, render_template, request, redirect, url_for, flash
-from sqlalchemy import select, DateTime
-
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, make_response
+from sqlalchemy import select, DateTime, func, desc
+import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from sqlalchemy.exc import IntegrityError
 import sqlalchemy
@@ -14,6 +13,8 @@ from models import Produto, db_session, Categoria, Fornecedor, Movimentacao_entr
 from utils import inserir_usuario, inserir_produto, atualizar_produto, inserir_categoria, inserir_fornecedor, \
     inserir_movimentacao_entrada, inserir_movimentacao_saida, inserir_funcionario
 from argon2 import PasswordHasher
+import plotly.express as px
+import pandas as pd
 import base64
 
 ph = PasswordHasher()
@@ -21,10 +22,10 @@ app = Flask(__name__)
 menager_login = LoginManager(app)
 app.secret_key = 'chave_secreta'
 
-
 @menager_login.user_loader
 def user_loader(id):
     usuario = db_session.query(Usuario).filter_by(id=id).first()
+    db_session.close()
     return usuario
 
 
@@ -36,7 +37,7 @@ def admin_required(f):
     def decorated_function(*args, **kwargs):
         if not current_user.admin:  # Verifica se o usuário NÃO é admin
             flash('Acesso negado, necessita ser admin', 'error')
-            return redirect(url_for('home'))  # Redireciona para uma página apropriada
+            return redirect(url_for('index'))  # Redireciona para uma página apropriada
         return f(*args, **kwargs)  # Executa a função original
 
     return decorated_function
@@ -53,11 +54,6 @@ def usuario_ativo(f):
     return decorated_function
 
 
-@app.route('/')
-def redirecionar():
-    return redirect(url_for('login'))
-
-
 #   U          S           U           A            R              I             O          S
 # cadastro de usuarios
 
@@ -71,9 +67,80 @@ def verificar_email_cnpj(email, cnpj, telefone):
     usuario = db_session.query(Usuario).filter_by(telefone=telefone).first()
     if usuario:
         return True
+    db_session.close()
     return False
 
 
+@app.route('/index')
+@login_required
+@usuario_ativo
+def index():
+    return render_template('index.html')
+
+# =====================================================================================================================
+
+@app.route('/produtos/dados')
+def obter_dados_produtos():
+    produtos = db_session.query(Produto).all()
+    dados = [
+        {
+            "descricao": produto.descricao,
+            "quantidade": produto.quantidade_produto,
+            "valor_total": produto.valor_produto * produto.quantidade_produto
+        }
+        for produto in produtos
+    ]
+    db_session.close()
+    return jsonify(dados)
+
+
+
+@app.route('/movimentacoes/dados')
+def obter_dados_movimentacoes():
+    movimentacoes_entrada = (
+        db_session.query(func.date(Movimentacao_entrada.data_movimentacao), func.sum(Movimentacao_entrada.quantidade_produto))
+        .group_by(func.date(Movimentacao_entrada.data_movimentacao))
+        .all()
+    )
+
+    movimentacoes_saida = (
+        db_session.query(func.date(Movimentacao_saida.data_movimentacao), func.sum(Movimentacao_saida.quantidade_produto))
+        .group_by(func.date(Movimentacao_saida.data_movimentacao))
+        .all()
+    )
+
+    dados = {
+        "entradas": [{"data": str(data), "quantidade": quantidade} for data, quantidade in movimentacoes_entrada],
+        "saidas": [{"data": str(data), "quantidade": quantidade} for data, quantidade in movimentacoes_saida]
+    }
+    db_session.close()
+    return jsonify(dados)
+
+
+# =====================================================================================================================
+@app.route('/')
+def redirecionar():
+    return redirect(url_for('login'))
+#   U          S           U           A            R              I             O          S
+
+
+
+@app.route('/perfil')
+def perfil():
+    usuario = current_user
+    if usuario.admin == True:
+        usuario.admin = 'admin'
+    else:
+        usuario.admin = 'sem permissão admintrador'
+    if usuario.status == True:
+        usuario.status = 'usuario ativo'
+    else:
+        usuario.status = 'desativado'
+    if usuario.senha:
+        usuario.senha = 'senha criptografada'
+    print(usuario)
+    db_session.close()
+    return render_template('perfil.html', usuario=usuario)
 @app.route('/cadastrar_usuario', methods=['GET', 'POST'])
 def cadastrar_usuario():
     if request.method == 'POST':
@@ -83,9 +150,8 @@ def cadastrar_usuario():
         telefone = request.form['telefone']
         CNPJ = request.form['CNPJ']
 
-
         if verificar_email_cnpj(email, CNPJ, telefone):
-            flash('Email ou CNPJ ja existente', 'error')
+            flash('Email ou CNPJ ou telefone ja existente', 'error')
             return redirect(url_for('login'), )
         else:
             try:
@@ -110,9 +176,11 @@ def login():
         email = request.form['email']
         senha = request.form['senha']
         if not email:
-            flash('preecher todos os campos', 'error')
+            flash('Você precisa informar o email', 'error')
+            return(redirect(url_for('login')))
         elif not senha:
-            flash('preecher todos os campos', 'error')
+            flash('Voce precisa informar a senha', 'error')
+            return (redirect(url_for('login')))
         else:
             usuario = db_session.query(Usuario).filter_by(email=email).first()
             if not usuario.status:
@@ -122,65 +190,22 @@ def login():
                 flash('login realizado com sucesso', 'success')
                 login_user(usuario)
 
-                return redirect(url_for('home'))
+                return redirect(url_for('index'))
             else:
                 flash('login deu errado, certifique-se de que os dados estão coreretos', 'error')
-
+    db_session.close()
     return render_template("login.html")
-# !!!!!!!!!!!!!!!!!!!!!
-@app.route('/usuario_editar')
-@login_required
-@usuario_ativo
-@admin_required
-def editar_proprio_usuario():
-    if request.method == 'POST':
-        usuario = db_session.merge(current_user)
-        usuario.nome = request.form['nome']
-        usuario.email = request.form['email']
-        usuario.senha = request.form['senha']
-        usuario.telefone = request.form['telefone']
-        usuario.CNPJ = request.form['CNPJ']
-        usuario.admin = request.form['admin']
-        usuario.status = request.form['status']
-        usuario.save()
-        return redirect(url_for('home'))
-    return render_template("editar_perfil_atual.html")
+
+
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 @app.route('/logout', methods=['GET', 'POST'])
 @login_required
 @usuario_ativo
 def logout():
     logout_user()
-    return redirect(url_for('home'))
+    return redirect(url_for('index'))
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-#
-#
-# @app.route('/vendas/grafico')
-# def vendas_grafico():
-#     resultados = vendas_por_mes_ano()
-#
-#     meses = [resultado.mes_ano for resultado in resultados]
-#     totais = [resultado.total_vendas for resultado in resultados]
-#
-#     # Gerar gráfico
-#     img = io.BytesIO()
-#     plt.figure(figsize=(10, 6))
-#     plt.bar(meses, totais, color='#ff6b6b')
-#     plt.xlabel('Mês/Ano')
-#     plt.ylabel('Total de Vendas')
-#     plt.xticks(rotation=45)
-#     plt.tight_layout()
-#     plt.savefig(img, format='png')
-#     img.seek(0)
-#     plot_url = base64.b64encode(img.getvalue()).decode('utf8')
-#
-#     return render_template('vendas.html', plot_url=plot_url)
-
-
-
-
-
-# rota para pagina inicial
 @app.route('/home')
 @login_required
 @usuario_ativo
@@ -191,7 +216,7 @@ def home():
 
     for item in lista_categoria:
         result.append(item.serialize_categoria())
-
+    db_session.close()
     return render_template('home.html', atributos_categoria=result)
 
 
@@ -209,7 +234,7 @@ def cadastrar_produto():
     if request.method == 'POST':
         # Obter os dados do produto da requisição
         descricao = request.form.get('descricao')
-        valor_produto = request.form.get('valor_produto')
+        valor_produto = float(request.form.get('valor_produto'))
 
         id_categoria = request.form.get('id_categoria')
 
@@ -239,17 +264,16 @@ def cadastrar_produto():
 
     # Obter a lista de categorias para o select
     lista_categoria = db_session.execute(select(Categoria)).scalars().all()
-
+    db_session.close()
     return render_template('cadastrar_produto.html', atributos=lista_categoria)
 
 
-# exibir produtos
 @app.route('/produtos')
 @login_required
 @usuario_ativo
 def produtos():
     # Número de produtos por página
-    produtos_por_pagina = 12
+    produtos_por_pagina = 1000
     # Obter o número da página a partir da query string (padrão: 1)
     pagina_atual = int(request.args.get('pagina', 1))
 
@@ -259,6 +283,7 @@ def produtos():
     # Selecionar os produtos com limite e offset
     lista_produto = (select(Produto, Categoria)
                      .outerjoin(Categoria, Produto.categoria_id == Categoria.id_categoria)
+                     .order_by(desc(Produto.quantidade_produto))
                      .offset(offset).limit(produtos_por_pagina))
     lista_produtos = db_session.execute(lista_produto).scalars().all()
 
@@ -270,30 +295,71 @@ def produtos():
     # Obter o total de produtos para calcular o número de páginas
     total_produtos = db_session.query(Produto).count()
     total_paginas = (total_produtos + produtos_por_pagina - 1) // produtos_por_pagina
-
+    db_session.close()
     return render_template('produtos.html', atributos_produto=result, pagina_atual=pagina_atual,
                            total_paginas=total_paginas)
 
 
-@app.route('/produto/atualizar', methods=['GET', 'POST'])
+@app.route('/produto/atualizar/<int:id_produto>', methods=['GET', 'POST'])
 @login_required
 @admin_required
 @usuario_ativo
-def atualizar_produto(descricao=None, descricao_nova=None, valor_produto_novo=None, quantidade_produto_novo=None,
-                      valor_produto=None, quantidade_produto=None):
-    produto = db_session.query.filter_by(descricao=descricao).first()
+def atualizar_produto(id_produto):
+    atributos_categoria = db_session.execute(select(Categoria)).scalars().all()
+    produto_editar = db_session.execute(select(Produto).where(Produto.id_produto == id_produto)).scalar()
 
-    if produto:
-        Produto.descricao = descricao_nova
+    if request.method == 'POST':
+        if not request.form.get('descricao'):
+            flash('preencher descricao do produto')
+        elif not request.form.get('valor_produto'):
+            flash('preencher valor do produto')
+        elif not request.form.get('categoria_id'):
+            flash('preencher categoria do produto')
+        try:
+            produto_editar.descricao = request.form.get('descricao')
+        except sqlalchemy.exc.IntegrityError:
+            flash('descricao ja cadastrado', 'error')
+        try:
+            produto_editar.valor_produto = float(request.form.get('valor_produto'))
+        except ValueError:
+            flash('valor do produto invalido')
+        except sqlalchemy.exc.IntegrityError:
+            flash('valor do produto invalido')
 
-        Produto.valor_produto = valor_produto_novo
-        Produto.quantidade_produto = quantidade_produto_novo
-        produto.save()
-        print(f"descricao: {descricao} atualizado para {descricao_nova}"
-              f"valor: {valor_produto} atualizado para {valor_produto_novo}"
-              f"quantidade: {quantidade_produto} para {quantidade_produto_novo}")
-    else:
-        print(f"Fornecedor com nome {descricao} não encontrado.")
+        try:
+            produto_editar.categoria_id = request.form.get('categoria_id')
+
+        except sqlalchemy.exc.IntegrityError:
+            print('categoria do produto invalida')
+        print(f'xyyyy{produto_editar.categoria_id}')
+        produto_editar.save()
+        return redirect(url_for('produtos'))
+    db_session.close()
+    return render_template('atualizar_produto.html', produto_editado=produto_editar,
+                           atributos_categoria=atributos_categoria)
+
+
+@app.route('/produto/deletar/<int:id_produto>', methods=['GET', 'POST'])
+@login_required
+@admin_required
+@usuario_ativo
+def deletar_produto(id_produto):
+    produto_deletar = db_session.execute(select(Produto).where(Produto.id_produto == id_produto)).scalar()
+    if request.method == 'POST':
+
+        acao = request.form.get('acao')
+        if acao == 'cancelar':
+            return redirect(url_for('produtos'))
+        elif acao == 'deletar':
+
+            if produto_deletar.quantidade_produto > 0:
+                flash('produto com quantidade maior que 0, impossivel deletar', 'error')
+
+            else:
+                produto_deletar.delete()
+                return redirect(url_for('produtos'))
+    db_session.close()
+    return render_template('deletar_produto.html', produto_deletar=produto_deletar)
 
 
 # -------------------------------------------------------------------------------------------
@@ -317,7 +383,9 @@ def categoria():
         result.append(item.serialize_categoria())
     total_categoria = db_session.query(Categoria).count()
     total_paginas = (total_categoria + categoria_por_pagina - 1) // categoria_por_pagina
-    return render_template('categoria.html', atributos_categoria=result, pagina_atual=pagina_atual, total_paginas=total_paginas )
+    db_session.close()
+    return render_template('categoria.html', atributos_categoria=result, pagina_atual=pagina_atual,
+                           total_paginas=total_paginas)
 
 
 @app.route('/categoria/cadastrar', methods=['GET', 'POST'])
@@ -341,8 +409,9 @@ def cadastrar_categoria():
                     return redirect(url_for('categoria'))
                 except ValueError as e:
                     flash(str(e))
-
+    db_session.close()
     return render_template('cadastrar_categoria.html')
+
 
 @app.route('/categoria/atualizar/<int:id_categoria>', methods=['GET', 'POST'])
 def atualizar_categoria(id_categoria):
@@ -350,22 +419,30 @@ def atualizar_categoria(id_categoria):
     print(categoria_editar)
     if request.method == 'POST':
         if not request.form.get('nome'):
-            flash('preencher nome','error')
+            flash('preencher nome', 'error')
         else:
             try:
                 categoria_editar.nome = request.form.get('nome')
-
                 categoria_editar.save()
                 flash('Categoria editada com sucesso', 'sucesso')
                 return redirect(url_for('categoria'))
             except sqlalchemy.exc.IntegrityError:
                 flash('Esta Categoria já está cadastrada', 'error')
-
+    db_session.close()
     return render_template('atualizar_categoria.html', categoria_editado=categoria_editar)
 
-
-
-
+@app.route('/categoria/deletar/<int:id_categoria>', methods=['GET', 'POST'])
+def deletar_categoria(id_categoria):
+    categoria_deletar = db_session.execute(select(Categoria).where(Categoria.id_categoria == id_categoria)).scalar()
+    if request.method == 'POST':
+        acao = request.form.get('acao')
+        if acao == 'cancelar':
+            return redirect(url_for('categoria'))
+        elif acao == 'deletar':
+            categoria_deletar.delete()
+            return redirect(url_for('categoria'))
+    db_session.close()
+    return render_template('deletar_categoria.html', categoria_deletar=categoria_deletar)
 # ----------------------------------------------------------------------------------------------------
 #         F              O            R             N          E           C            E          D            O         R
 @app.route('/fornecedor')
@@ -382,7 +459,9 @@ def fornecedor():
         result.append(item.serialize_fornecedor())
     total_fornecedor = db_session.query(Fornecedor).count()
     total_paginas = (total_fornecedor + fornecedor_por_pagina - 1) // fornecedor_por_pagina
-    return render_template('fornecedor.html', atributos_fornecedor=result, total_paginas=total_paginas, total_fornecedor=total_fornecedor)
+    db_session.close()
+    return render_template('fornecedor.html', atributos_fornecedor=result, total_paginas=total_paginas,
+                           total_fornecedor=total_fornecedor)
 
 
 @app.route('/fornecedor/cadastrar', methods=['GET', 'POST'])
@@ -413,30 +492,31 @@ def cadastrar_fornecedor():
                 return redirect(url_for('fornecedor'))
         except ValueError as e:
             flash(str(e))
+    db_session.close()
     return render_template('cadastrar_fornecedor.html')
 
 
-# Lista de itens como exemplo
-itens = [
-    {'id': 1, 'fornecedor': 'Fornecedor A'},
-    {'id': 2, 'fornecedor': 'Fornecedor B'},
-    {'id': 3, 'fornecedor': 'Fornecedor C'}
-]
-
-def atualizar_fornecedor(itens, item_id, novo_fornecedor):
-
-    for item in itens:
-        if item['id'] == item_id:
-            item['fornecedor'] = novo_fornecedor
-            return f"Fornecedor do item ID {item_id} atualizado para '{novo_fornecedor}'."
-    return f"Item com ID {item_id} não encontrado."
-
-# Exemplo de uso
-print(atualizar_fornecedor(itens, 2, 'Fornecedor D'))
-print(atualizar_fornecedor(itens, 4, 'Fornecedor E'))
-
-# Verificando a lista atualizada
-print(itens)
+@app.route('/fornecedor/atualizar/<int:id_fornecedor>', methods=['GET', 'POST'])
+def atualizar_fornecedor(id_fornecedor):
+    fornecedor_editar = db_session.execute(select(Fornecedor).where(Fornecedor.id_fornecedor == id_fornecedor)).scalar()
+    if request.method == 'POST':
+        if not request.form.get('nome_fornecedor'):
+            flash('preeencher o nome do fornecedor')
+        elif not request.form.get('CNPJ_fornecedor'):
+            flash('preeencher o CNPJ do fornecedor')
+        else:
+            try:
+                fornecedor_editar.nome_fornecedor = request.form.get('nome_fornecedor')
+            except sqlalchemy.exc.IntegrityError:
+                flash('Este fornecedor já está cadastrado')
+            try:
+                fornecedor_editar.CNPJ_fornecedor = request.form.get('CNPJ_fornecedor')
+                fornecedor_editar.save()
+                return (redirect(url_for('fornecedor')))
+            except sqlalchemy.exc.IntegrityError:
+                flash('CNPJ já cadastrado em outro usuario')
+    db_session.close()
+    return render_template('atualizar_fornecedor.html', fornecedor_editado=fornecedor_editar)
 
 
 # -----------------------------------------------------------------------------------------------------------------------
@@ -470,7 +550,6 @@ def cadastrar_movimentacao_entrada():
             flash('Produto com id inválido(VAZIO), selecione um produto para realizar a movimentação', 'error')
             return redirect(url_for('cadastrar_movimentacao_entrada'))
 
-
         produto_existente = db_session.execute(select(Produto)
                                                .filter_by(id_produto=id_produto)).scalar()
 
@@ -493,6 +572,7 @@ def cadastrar_movimentacao_entrada():
             flash(str(e))
     lista_funcionario = db_session.execute(select(Funcionario)).scalars().all()
     lista_produto = db_session.execute(select(Produto)).scalars().all()
+    db_session.close()
     return render_template('cadastrar_movimentacao_entrada.html',
                            atributos_funcionario=lista_funcionario, atributos_produto=lista_produto)
 
@@ -501,10 +581,9 @@ def cadastrar_movimentacao_entrada():
 @login_required
 @usuario_ativo
 def movimentacao_entrada():
-    movimentacoes_por_pagina = 12
+    movimentacoes_por_pagina = 9
     pagina_atual = int(request.args.get('pagina_atual', 1))
     offset = (pagina_atual - 1) * movimentacoes_por_pagina
-
 
     lista_movimentacao_entrada = (
         select(Movimentacao_entrada, Funcionario)
@@ -513,24 +592,20 @@ def movimentacao_entrada():
     )
 
     resultado_Movi_Funci = db_session.execute(lista_movimentacao_entrada).fetchall()
-    result = []
-
-    for item in resultado_Movi_Funci:
-        result.append(item)
-    total_movimentacoes = db_session.query(Categoria).count()
+    total_movimentacoes = db_session.query(Movimentacao_entrada).count()  # Certifique-se de usar a tabela correta
     total_paginas = (total_movimentacoes + movimentacoes_por_pagina - 1) // movimentacoes_por_pagina
+    db_session.close()
 
-    return render_template('movimentacao_entrada.html', atributos_movimentacao_entrada=result, total_movimentacoes=total_movimentacoes, total_paginas=total_paginas)
+    return render_template('movimentacao_entrada.html', atributos_movimentacao_entrada=resultado_Movi_Funci,
+                           total_movimentacoes=total_movimentacoes, total_paginas=total_paginas, pagina_atual=pagina_atual)
 
 
-# movimentacao saida sem a exclusao do produto na tabela Produto
 @app.route('/movimentacao_saida/cadastrar', methods=['GET', 'POST'])
 @login_required
 @admin_required
 @usuario_ativo
 def cadastrar_movimentacao_saida():
     if request.method == 'POST':
-
 
         try:
             f_quantidade_produto = int(request.form['form_quantidade_produto'])
@@ -553,7 +628,6 @@ def cadastrar_movimentacao_saida():
             flash('Produto com id inválido(VAZIO), selecione um produto para realizar a movimentação', 'error')
             return redirect(url_for('cadastrar_movimentacao_entrada'))
 
-
         produto_existente = db_session.execute(select(Produto).filter_by(id_produto=id_produto)).scalar()
         quantidade_existente = produto_existente.quantidade_produto
 
@@ -575,15 +649,16 @@ def cadastrar_movimentacao_saida():
             flash('a quantidade de produtos inserida é maior que a quantidade existente')
     lista_funcionario = db_session.execute(select(Funcionario)).scalars().all()
     lista_produto = db_session.execute(select(Produto)).scalars().all()
-
-    return render_template('cadastrar_movimentacao_saida.html', atributos_produto=lista_produto, atributos_funcionario=lista_funcionario)
+    db_session.close()
+    return render_template('cadastrar_movimentacao_saida.html', atributos_produto=lista_produto,
+                           atributos_funcionario=lista_funcionario)
 
 
 @app.route('/movimentacao_saida')
 @login_required
 @usuario_ativo
 def movimentacao_saida():
-    saida_por_pagina = 12
+    saida_por_pagina = 9
     pagina_atual = int(request.args.get('pagina', 1))
     offset = (pagina_atual - 1) * saida_por_pagina
 
@@ -602,8 +677,11 @@ def movimentacao_saida():
     print('xxyy', result)
     total_saida = db_session.query(Movimentacao_saida).count()
     total_paginas = (total_saida + saida_por_pagina - 1) // saida_por_pagina
-
-    return render_template('movimentacao_saida.html', atributos_movimentacao_saida=result, total_saida=total_saida, total_paginas=total_paginas)
+    db_session.close()
+    return render_template('movimentacao_saida.html', atributos_movimentacao_saida=lista_movimentacao_saida,
+                           total_saida=total_saida,
+                           total_paginas=total_paginas,
+                           pagina_atual=pagina_atual)
 
 
 # -----------------------------------------------------------------------------------------------------------------------
@@ -611,12 +689,14 @@ def movimentacao_saida():
 @app.route('/funcionario')
 @login_required
 @usuario_ativo
+@admin_required
 def funcionario():
     lista_funcionario = select(Funcionario).select_from(Funcionario)
     lista_funcionario = db_session.execute(lista_funcionario).scalars()
     result = []
     for item in lista_funcionario:
         result.append(item.serialize_funcionario())
+    db_session.close()
     return render_template('funcionario.html', atributos_funcionario=result)
 
 
@@ -649,33 +729,39 @@ def cadastrar_funcionario():
                 return redirect(url_for('funcionario'))
             except ValueError as e:
                 flash(str(e))
+    db_session.close()
     return render_template('cadastrar_funcionario.html')
 
 
-# Lista de funcionários como exemplo
-funcionarios = [
-    {'id': 1, 'nome': 'Alice', 'cargo': 'Desenvolvedora'},
-    {'id': 2, 'nome': 'Bob', 'cargo': 'Gerente'},
-    {'id': 3, 'nome': 'Charlie', 'cargo': 'Analista'}
-]
+@app.route('/funcionario/atualizar/<int:id_funcionario>', methods=['GET', 'POST'])
+def atualizar_funcionario(id_funcionario):
+    funcionario_editar = db_session.execute(
+        select(Funcionario).where(Funcionario.id_funcionario == id_funcionario)).scalar()
+    if request.method == 'POST':
+        if not request.form.get('nome_funcionario'):
+            flash('preeencher o nome do funcionario')
+        elif not request.form.get('CPF'):
+            flash('preeencher o CPF')
+        elif not request.form.get('salario'):
+            flash('preeencher o salario')
+        else:
+            try:
+                funcionario_editar.nome_funcionario = request.form.get('nome_funcionario')
+            except sqlalchemy.exc.IntegrityError:
+                flash('Este funcionario já está cadastrado')
+            try:
+                funcionario_editar.CPF = request.form.get('CPF')
+            except sqlalchemy.exc.IntegrityError:
+                flash('CPF já cadastrado em outro usuario')
+            try:
+                funcionario_editar.salario = request.form.get('salario')
+                funcionario_editar.save()
+                return (redirect(url_for('funcionario')))
+            except sqlalchemy.exc.IntegrityError:
+                flash('atualização inconcistente')
+    db_session.close()
+    return render_template('atualizar_funcionario.html', funcionario_editado=funcionario_editar)
 
-def atualizar_funcionario(funcionarios, funcionario_id, novo_nome=None, novo_cargo=None):
-
-    for funcionario in funcionarios:
-        if funcionario['id'] == funcionario_id:
-            if novo_nome is not None:
-                funcionario['nome'] = novo_nome
-            if novo_cargo is not None:
-                funcionario['cargo'] = novo_cargo
-            return f"Funcionário ID {funcionario_id} atualizado com sucesso."
-    return f"Funcionário com ID {funcionario_id} não encontrado."
-
-# Exemplo de uso
-print(atualizar_funcionario(funcionarios, 2, novo_nome='roberto', novo_cargo='Gerente Sênior'))
-print(atualizar_funcionario(funcionarios, 4, novo_nome='Daniele'))
-
-# Verificando a lista atualizada
-print(funcionarios)
 
 # -----------------------------------------------------------------------------
 
