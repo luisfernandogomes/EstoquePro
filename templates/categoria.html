@@ -39,7 +39,8 @@
                 <a style="text-decoration: none; color: white; "  href="{{url_for('atualizar_categoria', id_categoria=categoria.id_categoria) }}">editar</a>
             </td>
             <td>
-                <a style="text-decoration: none; color: white; "  href="{{url_for('deletar_categoria', id_categoria=categoria.id_categoria) }}">deletar</a>
+                <a style="text-decoration: none; color: white; "
+                   href="{{url_for('deletar_categoria', id_categoria=categoria.id_categoria) }}">deletar</a>
             </td>
         </tr>
         {% endfor %}

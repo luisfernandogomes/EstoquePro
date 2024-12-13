@@ -22,6 +22,10 @@ h1 {
     text-shadow: 1px 1px 8px #000000;
 }
 
+.nav_links {
+    padding-top: 10px;
+}
+
 nav {
     display: inline-block;
     width: 11vw;
@@ -57,7 +61,7 @@ main {
     width: 100%;
     max-width: 1200px;
     height: 600px;
-    overflow-y: scroll;
+    overflow-y: auto;
     margin-bottom: 20px;
 }
 
@@ -68,13 +72,16 @@ table {
 }
 
 th, td {
-    height: 90px;
+    height: 50px;
     text-align: center;
     border: 1px solid #0b0b36;
     padding: 10px;
     box-sizing: border-box;
 }
-
+thead {
+    position: sticky;
+    top: 0;
+}
 th {
     background-color: #4c93c0;
 }
@@ -575,4 +582,51 @@ option:hover {
     padding-top: 15vh;
     padding-left: 20vw;
 }
+.container_cargo_admin {
+    display: inline-block;
 
+    margin-left: 3vw;
+    text-decoration: underline white;
+    .descricao_admin {
+        color: black;
+        font-size: large;
+        font-weight: bold;
+    }
+}
+.img_perfil {
+    width: 100px;
+    height: 100px;
+}
+.container_img_perfil {
+
+
+}
+.container_acoes {
+    position: absolute;
+    left: 14vw;
+    bottom: 46vh;
+    .acoes_user {
+        text-decoration: underline white;
+        color: black;
+        font-size: large;
+        font-weight: bold;
+    }
+}
+.permissoes {
+    background-color: #1c1c5d;
+    color: white;
+
+}
+.container_dados_pessoais {
+    margin-top: 14vh;
+}
+.container_perfil {
+    margin-top: 2vh;
+    border: 1px solid black;
+    display: inline-block;
+    width: 40%;
+    height: 93%;
+    float: right;
+    margin-right: 3vw;
+    background-color: #4c91bd;
+ }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="EstoquePro" uuid="a45f7cb9-a18f-4990-8d87-6788670d1fb6">
+    <data-source source="LOCAL" name="EstoquePro" uuid="fdde750a-5bbc-43e7-be8d-e29c456f16e7">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>

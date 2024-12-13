@@ -4,6 +4,13 @@
 {% block conteudo %}
 <main>
 
+{%- for mensagem in get_flashed_messages()%}
+<div style="top: 10px" class="flash-message">
+    {{ mensagem }}
+    <button class="close-btn" onclick="this.parentElement.style.display='none';">&times;</button>
+</div>
+{%- endfor %}
+
     {% for item in atributos_movimentacao_entrada %}
     <div class="cards_tabelas">
 
@@ -13,6 +20,7 @@
         <p>Data Movimentação: {{ item.Movimentacao_entrada.data_movimentacao }}</p>
         <p>Id Funcionário: {{ item.Funcionario.id_funcionario }}</p>
         <p>Nome Funcionário: {{ item.Funcionario.nome_funcionario }}</p>
+        <p> fornecedor: {{ item.Fornecedor.nome_fornecedor }}  </p>
 
     </div>
 

@@ -16,41 +16,52 @@
 
         <a class="img_home" href="{{ url_for('index') }}">
 
-            <img  src="/static/assets/house.png" alt="início">
+            <img src="/static/assets/house.png" alt="início">
         </a>
         <div style="display: inline-block;  margin-left: 33.5vw;">
             <h1>
                 EstoquePro
             </h1>
         </div>
+        {% if request.endpoint != 'perfil' %}
+        <a style="margin-left: 30vw" class="img_home" href="{{ url_for('perfil') }}">
+
+            <img src="/static/assets/perfil.png" alt="início">
+        </a>
+        {% endif %}
     </div>
 </header>
 <nav class="nav">
     <div class="container_nav">
 
-
+        {% if request.endpoint != 'produtos' %}
         <div class="nav_links">
             <a href="{{ url_for('produtos') }}"><p class="texto_links">produtos cadastrados</p></a>
         </div>
+        {% endif %}
 
-
+        {% if request.endpoint != 'movimentacao_entrada' %}
         <div class="nav_links">
             <a href="{{ url_for('movimentacao_entrada') }}"><p class="texto_links">movimentacao entrada</p></a>
         </div>
+        {% endif %}
 
-
+        {% if request.endpoint != 'movimentacao_saida' %}
         <div class="nav_links">
             <a href="{{ url_for('movimentacao_saida') }}"><p class="texto_links">movimentacao saida</p></a>
         </div>
-
-
+        {% endif %}
+        {% if request.endpoint != 'categoria' %}
         <div class="nav_links">
             <a href="{{ url_for('categoria') }}"><p class="texto_links">visualizar categoria</p></a>
         </div>
-
+        {% endif %}
+        {% if request.endpoint != 'funcionario' %}
         <div class="nav_links">
             <a href="{{ url_for('funcionario') }}"><p class="texto_links">visualizar funcionario</p></a>
         </div>
+        {% endif %}
+
 
 
     </div>
@@ -67,16 +78,16 @@
         {% for categoria in atributos_categoria %}
         <div class="cards_dashbord">
             <div class="id_catregoria">
-                <div class="descricao_atributo" >id:</div> <div class="atributo"  >{{ categoria.id_categoria }}</div>
+                <div class="descricao_atributo">id:</div>
+                <div class="atributo">{{ categoria.id_categoria }}</div>
             </div>
             <div class="categoria_nome">
-                <div class="descricao_atributo" >nome:</div> <div class="atributo" >{{ categoria.nome }}</div>
+                <div class="descricao_atributo">nome:</div>
+                <div class="atributo">{{ categoria.nome }}</div>
             </div>
         </div>
         {% endfor %}
     </div>
-
-
 
 
     {% endblock %}

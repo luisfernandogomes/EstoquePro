@@ -4,7 +4,7 @@ from sqlalchemy import create_engine, Column, Integer, ForeignKey, String, Boole
 from sqlalchemy.orm import scoped_session, sessionmaker, declarative_base, relationship
 from flask_login import UserMixin
 from flask import jsonify
-
+from datetime import datetime
 
 # configura conexao com banco de dados
 engine = create_engine('sqlite:///EstoquePro')
@@ -27,12 +27,14 @@ class Usuario(UserMixin, Base):
     CNPJ = Column(Integer, unique=True, nullable=True, index=True)
     admin = Column(Boolean, default=False, index=True, nullable=True)
     status = Column(Boolean, default=False, index=True, nullable=True)
+    gerente = Column(Boolean, default=False, index=True, nullable=True)
+    assistente = Column(Boolean, default=False, index=True, nullable=True)
 
     def __repr__(self):
         return '<pessoa: {}, {}, {}, {}, {}>'.format(self.nome, self.email, self.senha,
                                                      self.telefone, self.CNPJ)
 
-    def __init__(self, nome, email, senha, telefone, CNPJ, admin, status):
+    def __init__(self, nome, email, senha, telefone, CNPJ, admin, status, gerente, assistente):
         self.nome = nome
         self.email = email
         self.senha = ph.hash(senha)
@@ -40,6 +42,8 @@ class Usuario(UserMixin, Base):
         self.CNPJ = CNPJ
         self.admin = admin
         self.status = status
+        self.gerente = gerente
+        self.assistente = assistente
 
     def verificar_senha(self, senha):
         try:
@@ -66,6 +70,45 @@ class Usuario(UserMixin, Base):
         return dados_user
 
 
+class registro_de_acoes_usuers(Base):
+    __tablename__ = 'registro_de_acoes_usuers'
+
+    id_acao = Column(Integer, primary_key=True, unique=True, nullable=False, index=True, autoincrement=True)
+    user_id = Column(Integer, ForeignKey('usuario.id'), unique=False, nullable=False, index=True)
+    user_name = Column(String(40), unique=False, index=True, nullable=False)
+    acao = Column(String(255), unique=False, index=True, nullable=False)
+    objeto_alterado = Column(String(255), unique=False, index=True, nullable=False)
+    id_do_objeto_alterado = Column(Integer, unique=False, nullable=False, index=True)
+    data_acao = Column(DateTime, default=datetime.utcnow, nullable=False)
+
+    user = relationship('Usuario', backref='registro_de_acoes_usuers' )
+
+    def __repr__(self):
+        return '<registro_de_acoes_usuers: {}, {}, {}, {}, {}, {}>'.format(self.id_acao, self.user_id, self.user_name, self.acao,
+                                                                       self.objeto_alterado, self.id_do_objeto_alterado)
+
+
+    def save(self):
+        db_session.add(self)
+        db_session.commit()
+
+    def delete(self):
+        db_session.delete(self)
+        db_session.commit()
+
+    def serialize_registro_de_acoes_usuers(self):
+        dados_registro_de_acoes_usuers = {
+            'id_acao': self.id_acao,
+            'user_id': self.user_id,
+            'user_name': self.user_name,
+            'acao': self.acao,
+            'objeto_alterado': self.objeto_alterado,
+            'id_do_objeto_alterado': self.id_do_objeto_alterado,
+            'data_acao': self.data_acao
+        }
+
+        return dados_registro_de_acoes_usuers
+
 class Produto(Base):
     __tablename__ = 'produto'
 
@@ -74,7 +117,7 @@ class Produto(Base):
     valor_produto = Column(Float, unique=False, index=False, nullable=False)
     quantidade_produto = Column(Integer, unique=False, nullable=False, index=True)
     categoria_id = Column(Integer, ForeignKey('categoria.id_categoria'), unique=False, nullable=True, index=True)
-    categoria = relationship('Categoria')
+
 
     def __repr__(self):
         return '<produto: {}, {}, {}, {}, {}>'.format(self.descricao, self.id_produto,
@@ -103,7 +146,7 @@ class Categoria(Base):
     __tablename__ = 'categoria'
     nome = Column(String(80), unique=True, index=True, nullable=False, )
     id_categoria = Column(Integer, primary_key=True, unique=True, nullable=False, index=True, autoincrement=True)
-
+    relacao_produtos = relationship('Produto', backref='categoria', lazy=True)
     def __repr__(self):
         return '<categoria: {}, {}>'.format(self.nome, self.id_categoria)
 
@@ -156,14 +199,15 @@ class Movimentacao_entrada(Base):
     id_produto = Column(Integer, ForeignKey('produto.id_produto'), index=True, nullable=False)
     data_movimentacao = Column(Date, unique=False, index=True, nullable=False)
     id_funcionario = Column(Integer, ForeignKey('funcionario.id_funcionario'), unique=False, nullable=False, index=True)
-
+    fornecedor = Column(Integer, ForeignKey('fornecedor.id_fornecedor'), unique=False, nullable=False, index=True)
+    relacionamento_fornecedor = relationship('Fornecedor')
     funcionario = relationship('Funcionario')
     produto = relationship('Produto')
 
     def __repr__(self):
         return '<movimentacao_entrada: {}, {}, {}, {}, {}>'.format(self.id_movimentacao, self.quantidade_produto,
                                                                    self.id_produto, self.data_movimentacao,
-                                                                   self.id_funcionario)
+                                                                   self.id_funcionario, self.fornecedor)
 
     def save(self):
         db_session.add(self)
@@ -179,7 +223,8 @@ class Movimentacao_entrada(Base):
             'quantidade_produto': self.quantidade_produto,
             'id_produto': self.id_produto,
             'data_movimentacao': self.data_movimentacao,
-            'id_funcionario': self.id_funcionario
+            'id_funcionario': self.id_funcionario,
+            'fornecedor': self.fornecedor
         }
         return dados_movimentacao
 

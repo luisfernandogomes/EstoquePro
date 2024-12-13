@@ -2,8 +2,18 @@
 
 {% block conteudo %}
 
+{%- for mensagem in get_flashed_messages()%}
+<div style="top: 10px" class="flash-message">
+    {{ mensagem }}
+    <button class="close-btn" onclick="this.parentElement.style.display='none';">&times;</button>
+</div>
+{%- endfor %}
+
+
+
+
 <div class="tabela-container">
-    <table>
+    <table  >
         <thead>
             <tr>
                 <th>id</th>
@@ -21,14 +31,14 @@
             <tr>
                 <td>{{ item.produto.id_produto }}</td>
                 <td>{{ item.produto.descricao }}</td>
-                <td>{{ item.produto.valor_produto }}</td>
+                <td>R$ {{ item.produto.valor_produto }}</td>
                 <td>{{ item.produto.quantidade_produto }}</td>
                 {% if item.categoria %}
                 <td>{{ item.categoria.nome }}</td>
                 <td>{{ item.produto.categoria_id }}</td>
                 {% endif %}
-                <td><a style="text-decoration: none;  href="{{ url_for('deletar_produto', id_produto=item.produto.id_produto) }}">deletar</a></td>
-                <td><a  style="text-decoration: none; href="{{ url_for('atualizar_produto', id_produto=item.produto.id_produto) }}">editar</a></td>
+                <td><a style="text-decoration: none; color: white; " href="{{ url_for('deletar_produto', id_produto=item.produto.id_produto) }}">deletar</a></td>
+                <td><a  style="text-decoration: none; color: white; " href="{{ url_for('atualizar_produto', id_produto=item.produto.id_produto) }}">editar</a></td>
             </tr>
             {% endfor %}
         </tbody>
